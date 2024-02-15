@@ -1,5 +1,6 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const authRoute = require('./routes/auth');
@@ -13,7 +14,8 @@ mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log('db connected'))
     .catch((err) => { console.log(err) });
 
-app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/jobs", jobRoute);
